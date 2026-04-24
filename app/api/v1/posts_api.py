@@ -1,15 +1,13 @@
-from fastapi import APIRouter
-from starlette.responses import Response
+from fastapi import APIRouter, status
 
 from app.schemas.posts import CreatePostRequest, PostDTO
 from app.service import posts_service
 
 router = APIRouter(prefix="/api/v1/posts", tags=["posts"])
 
-@router.post("/")
-def create_post(create_post_request: CreatePostRequest) -> Response:
-    post_dto: PostDTO = posts_service.create_post(create_post_request)
-    return Response(status_code=201, content=f"post created with id {post_dto.id}")
+@router.post("/", status_code=status.HTTP_201_CREATED)
+def create_post(create_post_request: CreatePostRequest) -> PostDTO:
+    return posts_service.create_post(create_post_request)
 
 
 @router.get("/{post_id:int}")
