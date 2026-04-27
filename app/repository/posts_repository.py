@@ -1,16 +1,19 @@
 from typing import Optional
 
+from app.db.session import SessionLocal
 from app.model.post import Post
 
 POSTS: dict[int, Post] = {}
 id_counter = 0
 
-def create_post(post: Post) -> Post:
-    global id_counter
 
-    post.id = id_counter
-    POSTS[id_counter] = post
-    id_counter += 1
+def create_post(post: Post) -> Post:
+    db = SessionLocal()
+    db.add(post)
+
+    db.commit()
+
+    POSTS[post.id] = post
     return post
 
 
