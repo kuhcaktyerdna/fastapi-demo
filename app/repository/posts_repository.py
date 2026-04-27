@@ -1,30 +1,33 @@
-from typing import Optional
+from typing import Optional, Sequence
 
-from app.db.session import SessionLocal
+from sqlalchemy.future import select
+from sqlalchemy.orm.session import Session
+from sqlalchemy.sql.expression import delete
+
 from app.model.post import Post
 
-POSTS: dict[int, Post] = {}
-id_counter = 0
 
+def get_all_posts(db: Session) -> Sequence[Post]:
+    return db.execute(select(Post)).scalars().all()
 
-def create_post(post: Post) -> Post:
-    db = SessionLocal()
+def create_post(post: Post, db: Session) -> Post:
     db.add(post)
-
     db.commit()
+    db.refresh(post)
 
-    POSTS[post.id] = post
     return post
 
 
-def update_post(post: Post) -> Post:
-    POSTS[post.id] = post
+def update_post(post: Post, db: Session) -> Post:
+    db.commit()
+    db.refresh(post)
     return post
 
 
-def get_post(post_id: int) -> Optional[Post]:
-    return POSTS.get(post_id)
+def get_post(post_id: int, db: Session) -> Optional[Post]:
+    return db.execute(select(Post).where(Post.id == post_id)).scalar_one()
 
 
-def delete_post(post_id: int) -> None:
-    POSTS.pop(post_id)
+def delete_post(post_id: int, db: Session) -> None:
+    db.execute(delete(Post).where(Post.id == post_id))
+    db.commit()
