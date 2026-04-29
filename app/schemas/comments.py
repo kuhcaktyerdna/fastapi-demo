@@ -3,21 +3,20 @@ from datetime import datetime
 from pydantic import BaseModel, Field, ConfigDict
 
 
-class CreatePostRequest(BaseModel):
-    title: str = Field(..., min_length=1, max_length=255)
+class CreateCommentRequest(BaseModel):
+    post_id: int
     content: str = Field(..., min_length=1)
 
 
-class UpdatePostRequest(BaseModel):
-    title: str = Field(..., min_length=1, max_length=255)
+class UpdateCommentRequest(BaseModel):
     content: str = Field(..., min_length=1)
 
 
-class PostDTO(BaseModel):
+class CommentDTO(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
     id: int
-    title: str
     content: str
+    post_id: int
     created_at: datetime
     updated_at: datetime | None = None

@@ -6,7 +6,11 @@ from app.exception.business_exceptions import EntityNotFoundException
 from app.mapper import post_mapper
 from app.model.post import Post
 from app.repository import posts_repository
-from app.schemas.posts import CreatePostRequest, PostDTO, UpdatePostRequest
+from app.schemas.posts import (
+    CreatePostRequest,
+    PostDTO,
+    UpdatePostRequest
+)
 
 
 def get_all(db: Session) -> list[PostDTO]:

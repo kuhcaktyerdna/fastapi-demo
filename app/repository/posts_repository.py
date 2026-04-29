@@ -1,8 +1,7 @@
 from typing import Optional, Sequence
 
-from sqlalchemy.future import select
 from sqlalchemy.orm.session import Session
-from sqlalchemy.sql.expression import delete
+from sqlalchemy.sql.expression import select, delete
 
 from app.model.post import Post
 

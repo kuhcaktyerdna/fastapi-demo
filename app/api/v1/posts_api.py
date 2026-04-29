@@ -2,7 +2,11 @@ from fastapi import APIRouter, status, Depends
 from sqlalchemy.orm.session import Session
 
 from app.db.session import get_db
-from app.schemas.posts import CreatePostRequest, PostDTO, UpdatePostRequest
+from app.schemas.posts import (
+    CreatePostRequest,
+    PostDTO,
+    UpdatePostRequest
+)
 from app.service import posts_service
 
 router = APIRouter(prefix="/posts", tags=["posts"])

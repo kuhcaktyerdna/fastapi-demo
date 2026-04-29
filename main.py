@@ -3,6 +3,7 @@ from fastapi.responses import JSONResponse
 from starlette.requests import Request
 
 from app.api.v1.posts_api import router as posts_router
+from app.api.v1.comments_api import router as comments_router
 from app.db.session import Base, engine
 from app.exception.business_exceptions import EntityNotFoundException
 
@@ -10,6 +11,7 @@ app: FastAPI = FastAPI()
 API_PREFIX: str = "/api/v1"
 
 app.include_router(posts_router, prefix=API_PREFIX, tags=["posts"])
+app.include_router(comments_router, prefix=API_PREFIX, tags=["comments"])
 
 Base.metadata.create_all(bind=engine)
 
